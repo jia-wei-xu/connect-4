@@ -1,0 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+h6, canvas { 
+  position: absolute;
+}
+
+h6 {
+  right: 0;
+  bottom: 0;
+  font-family: monospace;
+}
