@@ -13,6 +13,13 @@ let gameOver = false;
 let playerTurn = 1;
 let winRow = undefined;
 
+const reset = () => {
+	gameOver = false;
+	board = Array.from(Array(row), () => new Array(column).fill(0));
+  	update();
+  	return;
+}
+
 const start = () => {
 	canvas.style.display = "inline";
 	document.getElementById("instructions").style.display = "none";
@@ -38,11 +45,9 @@ const resize = () => {
 
 const detectPlace = (e) => {
 	if (gameOver) {
-  	gameOver = false;
-  	board = Array.from(Array(row), () => new Array(column).fill(0));
-    update();
-    return;
-  }
+		reset();
+		return;
+  	}
   
   const rect = canvas.getBoundingClientRect();
 	const x = e.clientX - rect.left;
@@ -63,12 +68,39 @@ const detectPlace = (e) => {
 				}
 			} else {
 				if (checkWin()) {
-					alert(`玩家${["一", "二"][playerTurn - 1]}号(${["红色", "蓝色"][playerTurn - 1]})赢了!`);
-        } else if (checkTie()) {
-        	alert(`平局!`);
-        }
-        gameOver = true;
-        playerTurn = 1;
+					setTimeout(() => {
+						if (confirm(`玩家${["一", "二"][playerTurn - 1]}号(${["红色", "蓝色"][playerTurn - 1]})赢了! \n\n继续玩吗？`)) {
+							reset();
+						} else {
+							reset();
+							canvas.style.display = "none";
+							document.getElementById("instructions").style.display = "block";
+
+							resize();
+							adjustDiameter();
+							update();
+						}
+					}, 100);
+				} else if (checkTie()) {
+					setTimeout(() => {
+						if (confirm(`平局! \n\n继续玩吗？`)) {
+							reset();
+						} else {
+							reset();
+							canvas.style.display = "none";
+							document.getElementById("instructions").style.display = "block";
+
+							resize();
+							adjustDiameter();
+							update();
+						}
+					}, 100);
+				}
+
+
+				
+			gameOver = true;
+			playerTurn = 1;
 			}
 
 			return;
@@ -203,8 +235,6 @@ window.addEventListener('resize', (e) => {
 
 window.onload = () => {
 	canvas.style.display = "none";
-
-	//alert("两人四子棋 \n\n一方持红棋子, 一方持篮棋子, 玩家轮流放下红蓝棋子。先将自己四只棋子在横竖或斜着连成一条的玩家获胜.")
 
 	resize();
 	adjustDiameter();
