@@ -4,6 +4,10 @@
     overflow: hidden;
 }
 
+body {
+    background: lightgreen;
+}
+
 canvas { 
   position: absolute;
 }
