@@ -13,6 +13,11 @@ let gameOver = false;
 let playerTurn = 1;
 let winRow = undefined;
 
+const start = () => {
+	canvas.style.display = "inline";
+	document.getElementById("instructions").style.display = "none";
+}
+
 const adjustDiameter = () => {
 	const widthBoundary = (canvas.width / 2) * 0.6;
 	const heightBoundary = (canvas.height / 2) * 0.6;
@@ -187,7 +192,7 @@ const circle = (x, y, d, c) => {
 }
 
 window.addEventListener("mousedown", (e) => {
-	detectPlace(e);
+	if (canvas.style.display != "none") detectPlace(e);
 });
 
 window.addEventListener('resize', (e) => {
@@ -197,7 +202,9 @@ window.addEventListener('resize', (e) => {
 }, true);
 
 window.onload = () => {
-	alert("两人四子棋 \n\n一方持红棋子, 一方持篮棋子, 玩家轮流放下红蓝棋子。先将自己四只棋子在横竖或斜着连成一条的玩家获胜.")
+	canvas.style.display = "none";
+
+	//alert("两人四子棋 \n\n一方持红棋子, 一方持篮棋子, 玩家轮流放下红蓝棋子。先将自己四只棋子在横竖或斜着连成一条的玩家获胜.")
 
 	resize();
 	adjustDiameter();
